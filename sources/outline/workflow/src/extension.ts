@@ -1,0 +1,29 @@
+import * as vscode from 'vscode';
+
+import { CodeOutline, SymbolNode } from './outline/codeOutline';
+
+export function activate(context: vscode.ExtensionContext) {
+    let codeOutline = new CodeOutline(context);
+    vscode.window.registerTreeDataProvider('codeOutline', codeOutline);
+    vscode.commands.registerCommand('codeOutline.refresh', () => {
+        codeOutline.refresh()
+    });
+    vscode.commands.registerCommand('codeOutline.revealRange', (editor: vscode.TextEditor, node: SymbolNode) => {
+        const range = new vscode.Range(node.symbol.location.range.start, node.symbol.location.range.end);
+        editor.revealRange(range, vscode.TextEditorRevealType.Default);
+        editor.selection = new vscode.Selection(range.start, range.end);
+        vscode.commands.executeCommand('workbench.action.focusActiveEditorGroup');
+        changeNodeRange(node);
+    });
+
+    function changeNodeRange(node: SymbolNode) {
+        if (node.state == vscode.TreeItemCollapsibleState.Collapsed) {
+            node.setState(vscode.TreeItemCollapsibleState.Expanded);
+        } else if(vscode.TreeItemCollapsibleState.Expanded) {
+            node.setState(vscode.TreeItemCollapsibleState.Collapsed);
+        }
+    }
+}
+
+export function deactivate() {
+}

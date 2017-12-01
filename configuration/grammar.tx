@@ -1,0 +1,23 @@
+Program:
+	'lang' name=ID extensions=Extensions '{' rules*=Rule '}'
+;
+
+Extensions:
+	'[' extension+=Extension ']'
+;
+
+Extension:
+	id=ID (',')?
+;
+
+Rule:
+	name=RuleName '{' options*=Option '}'
+;
+
+RuleName:
+	'general' | 'path' | 'command' | 'python'
+;
+
+Option:
+	name=ID ':' value=STRING
+;

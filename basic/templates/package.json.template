@@ -1,0 +1,68 @@
+{
+	"name": "{{ name }}",
+	"version": "{{ version }}",
+	{%- if has_publisher == True %}
+    "publisher": "{{ publisher }}",
+	{%- endif %}
+	{%- if has_author == True %}
+    "author": "{{ author }}",
+	{%- endif %}
+	{%- if has_url == True %}
+    "url": "{{ url }}",
+	{%- endif %}
+	"engines": {
+		"vscode": "^1.16.0"
+	},
+	"categories": [
+		"Languages"
+	],
+	"main": "./out/src/extension",
+	"activationEvents": [
+        "onView:{{ name }}"
+    ],
+	"contributes": {
+	    "commands": [
+            {
+                "command": "{{ name }}.refresh",
+                "title": "Refresh",
+                "icon": {
+                    "dark": "resources/dark/icon-refresh.svg",
+                    "light": "resources/light/icon-refresh.svg"
+                }
+            }
+        ],
+        "views": {
+            "explorer": [
+                {
+                    "id": "{{ name }}",
+                    "name": "Code Outline"
+                }
+            ]
+        },
+        "menus": {
+            "view/title": [
+                {
+                    "command": "{{ name }}.refresh",
+                    "when": "view == {{ name }}",
+                    "group": "navigation"
+                }
+            ]
+        },
+		"configuration": {
+			"type": "object",
+			"title": "Code Outline configuration",
+			"properties": {
+
+			}
+		},
+		"languages": [{
+			"id": "{{ name }}",
+			"extensions": {{ extensions }}
+		}],
+		"grammars": [{
+			"language": "{{ name }}",
+			"scopeName": "source.{{ name }}",
+			"path": "{{ grammar_path }}"
+		}]
+	}
+}
