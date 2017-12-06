@@ -2,6 +2,7 @@ from os.path import join, dirname, basename
 from textx.metamodel import metamodel_from_file
 from textx.export import metamodel_export, model_export
 from shutil import copyfile
+from jinja2 import Template
 
 class OutlineVSCode(object):
 
@@ -18,7 +19,8 @@ class OutlineVSCode(object):
         self.copy_outline_tx()
         self.copy_outline_program()
         self.copy_language_grammar()
-        self.copy_code_outline()
+        self.generate_codeOutline_js()
+        #self.copy_code_outline()
         model = self.get_outline_model()
         self.copy_icons(model)
 
@@ -49,9 +51,26 @@ class OutlineVSCode(object):
                 open(join(self.outline_path, 'language.tx'), 'w') as language_file:
             language_file.write(grammar_file.read())
 
-    def copy_code_outline(self):
-        copyfile(join(self.this_folder, 'resources', 'codeOutline.js'),
-                 join(self.configuration.project_path, 'out', 'src', 'outline', 'codeOutline.js'))
+    def generate_codeOutline_js(self):
+        this_folder = dirname(__file__)
+        with open(join(this_folder, 'templates', 'codeOutline.js.template'), 'r') as file:
+            data = file.read()
+        template = Template(data)
+        extension = self.get_data()
+        result = template.render(extension)
+        result_file = open(join(self.configuration.project_path, 'out', 'src', 'outline', 'codeOutline.js'), 'w')
+        result_file.write(result)
+
+    def get_data(self):
+        extension = {
+            'name': self.configuration.language_name
+        }
+        return extension
+
+    #def copy_code_outline(self):
+    #    copyfile(join(self.this_folder, 'resources', 'codeOutline.js.template'),
+    #
+    #              join(self.configuration.project_path, 'out', 'src', 'outline', 'codeOutline.js.template'))
 
     def copy_icons(self, model):
         for rule in model.rules:

@@ -46,8 +46,8 @@ class ColoringVSCode(object):
         grammar_model = textX.model_from_file(join(this_folder, self.configuration.grammar_path))
         model_export(grammar_model, join(this_folder, self.configuration.grammar_path+'.dot'))
 
-        grammar = metamodel_from_file(join(this_folder, 'grammar.tx'), debug=False)
-        metamodel_export(grammar, join(this_folder, 'grammar.dot'))
+        grammar = metamodel_from_file(join(this_folder, 'coloring.tx'), debug=False)
+        metamodel_export(grammar, join(this_folder, 'coloring.dot'))
 
         program_model = grammar.model_from_file(join(this_folder, self.configuration.coloring_path))
         model_export(program_model, join(this_folder, self.configuration.coloring_path + '.dot'))
@@ -199,7 +199,7 @@ class ColoringVSCode(object):
             if self.type != None:
                 self.operation_type_relation[item] = self.type
                 continue
-            if self.default_keyword_type != None:
+            if self.default_operation_type != None:
                 self.operation_type_relation[item] = self.default_operation_type
 
 
@@ -238,8 +238,7 @@ class ColoringVSCode(object):
             if self.keyword_type_relation[item] not in self.type_keyword_relation:
                 self.type_keyword_relation[self.keyword_type_relation[item]] = []
             if item != "'" and item != '"' and self.is_word_assembled_from_additional_characters(item) == False:
-                self.type_keyword_relation[self.keyword_type_relation[item]].append(item+"$")
-                self.type_keyword_relation[self.keyword_type_relation[item]].append(item+" ")
+                self.type_keyword_relation[self.keyword_type_relation[item]].append(item)
             elif item != "'" and item != '"':
                 self.type_keyword_relation[self.keyword_type_relation[item]].append(item)
         for item in self.operation_type_relation:
@@ -249,8 +248,8 @@ class ColoringVSCode(object):
         for item in self.regular_expressions:
             if self.regular_expressions[item] not in self.type_regular_expression_relation:
                 self.type_regular_expression_relation[self.regular_expressions[item]] = []
-            self.type_regular_expression_relation[self.regular_expressions[item]].append(item+"$")
-            self.type_regular_expression_relation[self.regular_expressions[item]].append(item+" ")
+            self.type_regular_expression_relation[self.regular_expressions[item]].append(item)
+            self.type_regular_expression_relation[self.regular_expressions[item]].append(item)
 
     def prepare_coloring_json(self):
         self.coloring = {
@@ -261,19 +260,24 @@ class ColoringVSCode(object):
                 'block_start': self.block_comment_start,
                 'block_end': self.block_comment_end
             },
-            'keywords': self.get_name_match_relation(self.type_keyword_relation),
+            'keywords': self.get_name_match_relation(self.type_keyword_relation, self.operations),
             'operations': self.get_name_match_relation(self.type_operation_relation),
-            'regular_expressions':  self.get_name_match_relation(self.type_regular_expression_relation)
+            'regular_expressions':  self.get_name_match_relation(self.type_regular_expression_relation, self.operations)
         }
 
-    def get_name_match_relation(self, map):
+    def get_name_match_relation(self, map, operators=[]):
         keywords = []
         deleted = True
+        appendix = ""
+        for i, operator in enumerate(operators):
+            appendix += operator
+            if i != len(operators) - 1:
+                appendix += "|"
         while deleted == True:
             deleted = False
             for item, words in map.items():
-                string = ""
-                string += '('
+                element = ""
+                element += '('
                 j = 0
                 insert = False
                 while j < len(words):
@@ -283,16 +287,20 @@ class ColoringVSCode(object):
                     if indipendent == False:
                         j = j + 1
                         continue
-                    string += words[j]
+                    string = words[j]
+                    if appendix != "":
+                        string += "(" + appendix + ")*"
+                        string = string + "$|" + string + " "
+                    element += string
                     if j != len(words)-1:
-                        string += '|'
+                        element += '|'
                     words.remove(words[j])
                     deleted = True
                     insert = True
-                string += ')'
+                element += ')'
                 keyword = {
                     'name': item,
-                    'match': string
+                    'match': element
                 }
                 if insert:
                     keywords.append(keyword)

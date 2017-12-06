@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const vscode_1 = require("vscode");
 const pythonShell = require("python-shell");
+const vscode = require("vscode");
 const path = require("path");
 const fs = require("fs");
 class SymbolNode {
@@ -34,6 +35,29 @@ class CodeOutline {
         this.context = context;
         this.customizeEvents();
         this.updateSymbols(vscode_1.window.activeTextEditor);
+        this.registerCommands();
+    }
+    registerCommands() {
+        let codeOutline = this;
+        vscode.window.registerTreeDataProvider('{{name}}', codeOutline);
+        vscode.commands.registerCommand('{{name}}.refresh', () => {
+            codeOutline.refresh();
+        });
+        vscode.commands.registerCommand('codeOutline.revealRange', (editor, node) => {
+            const range = new vscode.Range(node.symbol.location.range.start, node.symbol.location.range.end);
+            editor.revealRange(range, vscode.TextEditorRevealType.Default);
+            editor.selection = new vscode.Selection(range.start, range.end);
+            vscode.commands.executeCommand('workbench.action.focusActiveEditorGroup');
+            changeNodeRange(node);
+        });
+        function changeNodeRange(node) {
+            if (node.state == vscode.TreeItemCollapsibleState.Collapsed) {
+                node.setState(vscode.TreeItemCollapsibleState.Expanded);
+            }
+            else if (vscode.TreeItemCollapsibleState.Expanded) {
+                node.setState(vscode.TreeItemCollapsibleState.Collapsed);
+            }
+        }
     }
     customizeEvents() {
         vscode_1.window.onDidChangeActiveTextEditor(editor => {

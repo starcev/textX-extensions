@@ -11,7 +11,6 @@ def main(debug=False):
 
     basic = BasicGenerator(configuration)
     basic.make_folder_structure()
-    basic.do_basic_copies()
 
     package_json = PackageJsonGenerator(configuration)
     package_json.generate_package_json()

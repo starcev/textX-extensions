@@ -13,24 +13,11 @@
 	"engines": {
 		"vscode": "^1.16.0"
 	},
-	"categories": [
-		"Languages"
-	],
 	"main": "./out/src/extension",
 	"activationEvents": [
         "onView:{{ name }}"
     ],
 	"contributes": {
-	    "commands": [
-            {
-                "command": "{{ name }}.refresh",
-                "title": "Refresh",
-                "icon": {
-                    "dark": "resources/dark/icon-refresh.svg",
-                    "light": "resources/light/icon-refresh.svg"
-                }
-            }
-        ],
         "views": {
             "explorer": [
                 {
@@ -39,22 +26,6 @@
                 }
             ]
         },
-        "menus": {
-            "view/title": [
-                {
-                    "command": "{{ name }}.refresh",
-                    "when": "view == {{ name }}",
-                    "group": "navigation"
-                }
-            ]
-        },
-		"configuration": {
-			"type": "object",
-			"title": "Code Outline configuration",
-			"properties": {
-
-			}
-		},
 		"languages": [{
 			"id": "{{ name }}",
 			"extensions": {{ extensions }}
