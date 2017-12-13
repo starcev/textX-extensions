@@ -14,7 +14,7 @@ rules = {
 		BracketedChoice -> constant.character;
 }
 
-keywords = {
+matches = {
 	"?=", "*=", "+=" -> storage.modifier;
 }
 

@@ -1,4 +1,4 @@
-from os.path import join, dirname, basename
+from os.path import join, dirname, basename, exists
 from textx.metamodel import metamodel_from_file
 from textx.export import metamodel_export, model_export
 from shutil import copyfile
@@ -74,5 +74,6 @@ class OutlineVSCode(object):
 
     def copy_icons(self, model):
         for rule in model.rules:
-            name = basename(rule.choices.icon[0].path)
-            copyfile(rule.choices.icon[0].path, join(self.configuration.project_path, 'resources', 'icons', name))
+            if rule.icon != None and exists(rule.icon.path):
+                name = basename(rule.icon.path)
+                copyfile(rule.icon.path, join(self.configuration.project_path, 'resources', 'icons', name))

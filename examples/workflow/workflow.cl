@@ -21,6 +21,6 @@ rules = {
 		Next -> storage.type;
 }
 
-keywords = {
+matches = {
 	"action", "{" -> meta.tag;
 }

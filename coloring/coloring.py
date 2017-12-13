@@ -22,7 +22,7 @@ class ColoringVSCode(object):
         self.block_comment_end = None
         self.rules_keyword_type_relation = {}
         self.rules_operation_type_relation = {}
-        self.keywords_word_type_relation = {}
+        self.matches_word_type_relation = {}
         self.regular_expressions = {}
 
         self.keyword_type_relation = {}
@@ -41,16 +41,11 @@ class ColoringVSCode(object):
         this_folder = dirname(__file__)
 
         textX = metamodel_from_file(join(dirname(__file__), '..', 'textX.tx'))
-        metamodel_export(textX, join(dirname(__file__), '..', 'textX.dot'))
 
         grammar_model = textX.model_from_file(join(this_folder, self.configuration.grammar_path))
-        model_export(grammar_model, join(this_folder, self.configuration.grammar_path+'.dot'))
-
         grammar = metamodel_from_file(join(this_folder, 'coloring.tx'), debug=False)
-        metamodel_export(grammar, join(this_folder, 'coloring.dot'))
 
         program_model = grammar.model_from_file(join(this_folder, self.configuration.coloring_path))
-        model_export(program_model, join(this_folder, self.configuration.coloring_path + '.dot'))
 
         self.name = self.configuration.language_name
 
@@ -65,8 +60,8 @@ class ColoringVSCode(object):
         for rule in model.rules:
             if rule.rules != None:
                 self.intepret_rules(rule.rules)
-            if rule.keywords != None:
-                self.interpret_keywords(rule.keywords)
+            if rule.matches != None:
+                self.interpret_matches(rule.matches)
             if rule.regular_expressions != None:
                 self.interpret_regular_expressions(rule.regular_expressions)
 
@@ -103,10 +98,10 @@ class ColoringVSCode(object):
                     for element in list.elements:
                         self.rules_operation_type_relation[element] = list.type
 
-    def interpret_keywords(self,keywords):
-        for list in keywords.keword_list:
+    def interpret_matches(self, matches):
+        for list in matches.match_list:
             for word in list.words:
-                self.keywords_word_type_relation[self.add_slash_infront_of_special_characters(word)] = list.type
+                self.matches_word_type_relation[self.add_slash_infront_of_special_characters(word)] = list.type
 
     def interpret_regular_expressions(self,regular_expressions):
         for list in regular_expressions.regular_expression_list:
@@ -171,7 +166,7 @@ class ColoringVSCode(object):
         self.prepare_coloring_json()
 
     def prepare_relation_keywords(self):
-        for item in self.keywords_word_type_relation:
+        for item in self.matches_word_type_relation:
             if item not in self.keywords and self.is_word_assembled_from_additional_characters(item) == False:
                 self.keywords.append(item)
         for item in self.keywords:
@@ -187,7 +182,7 @@ class ColoringVSCode(object):
                 self.keyword_type_relation[item] = self.default_keyword_type
 
     def prepare_relation_operations(self):
-        for item in self.keywords_word_type_relation:
+        for item in self.matches_word_type_relation:
             if item not in self.operations and self.is_word_assembled_from_additional_characters(item):
                 self.operations.append(item)
         for item in self.operations:
@@ -205,9 +200,9 @@ class ColoringVSCode(object):
 
     def get_type_from_keywords(self, word):
         self.type = None
-        for item in self.keywords_word_type_relation:
+        for item in self.matches_word_type_relation:
             if item == word:
-                self.type = self.keywords_word_type_relation.get(item)
+                self.type = self.matches_word_type_relation.get(item)
         if self.type != None:
             return self.type
         for item in self.keyword_type_relation:

@@ -15,7 +15,7 @@ rules = {
 		Direction -> support.class;
 }
 
-keywords = {
+matches = {
 	"up", "wi+th", "+" -> variable.language;
 }
 

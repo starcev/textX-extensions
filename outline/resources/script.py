@@ -23,21 +23,18 @@ class Tree(object):
         self.nodes = []
         self.start_position_in_lines = []
         self.fill_end_position_in_lines()
-        self.visit_rule(self.language_model, 1)
+        self.visit_rule(self.language_model)
         self.make_tree()
 
     def get_language_model(self):
         language = metamodel_from_file(join(dirname(__file__), 'language.tx'))
-        metamodel_export(language, join(dirname(__file__), 'language.dot'))
         grammar_model = language.model_from_str(self.text)
         return grammar_model
 
     def get_outline_model(self):
         this_folder = dirname(__file__)
         language = metamodel_from_file(join(dirname(__file__), 'outline.tx'))
-        metamodel_export(language, join(dirname(__file__), 'outline.dot'))
         grammar_model = language.model_from_file(join(this_folder, 'outline.ol'))
-        model_export(grammar_model, join(this_folder, 'outline.dot'))
         return grammar_model
 
     def fill_end_position_in_lines(self):
@@ -47,15 +44,15 @@ class Tree(object):
             counter += len(line) + 2
         self.start_position_in_lines.append(sys.maxsize)
 
-    def visit_rule(self, rule, mult):
-        if (mult == 1):
+    def visit_rule(self, rule, mult='1'):
+        if (mult == '1'):
             subrules = rule._tx_attrs
             values = {}
             for subrule in subrules:
                 child = getattr(rule, subrule)
                 attr = subrules[subrule]
                 if attr.cont == False:
-                    if self.convert_mult(attr.mult) == 1:
+                    if attr.mult == '1':
                         values[subrule] = child.name
                         continue
                     else:
@@ -67,18 +64,11 @@ class Tree(object):
                 if attr.ref == False:
                     values[subrule] = child
                     continue
-                self.visit_rule(child, self.convert_mult(attr.mult))
+                self.visit_rule(child, attr.mult)
             self.proccess_rule(values, rule)
         else:
             for item in rule:
-                self.visit_rule(item, 1)
-            pass
-
-    def convert_mult(self, mult):
-        if (mult == '1'):
-            return 1
-        else:
-            return 2
+                self.visit_rule(item)
 
     def proccess_rule(self, values, rule, label=None):
         rule_name = type(rule).__name__
@@ -87,8 +77,11 @@ class Tree(object):
         for outline_rule in self.outline_model.rules:
             if outline_rule.name == rule_name:
                 if label == None:
-                    label = self.get_label(values, outline_rule.choices.label[0].names)
-                node = Node(rule_name, label, basename(outline_rule.choices.icon[0].path), rule._tx_position, rule._tx_position_end)
+                    label = self.get_label(values, outline_rule.label.names)
+                icon = None
+                if outline_rule.icon != None:
+                    icon = outline_rule.icon.path
+                node = Node(rule_name, label, icon, rule._tx_position, rule._tx_position_end)
                 self.nodes.append(node)
 
     def get_label(self, values, names):
@@ -106,9 +99,11 @@ class Tree(object):
     def make_tree(self):
         children = self.determine_parent_child_relation()
         for node in self.nodes:
-            self.remove_grandchildren(node)
+            if node in self.nodes:
+                self.remove_grandchildren(node)
         for child in children:
-            self.nodes.remove(child)
+            if child in self.nodes:
+                self.nodes.remove(child)
         self.tree = self.make_nodes()
 
     def determine_parent_child_relation(self):
@@ -132,7 +127,8 @@ class Tree(object):
                 if grandchild not in children:
                     children.append(grandchild)
         for child in children:
-            node.children.remove(child)
+            if child in self.nodes:
+                node.children.remove(child)
 
     def make_nodes(self, nodes=None):
         objects = []
@@ -163,7 +159,6 @@ class Tree(object):
                 point['column'] = position - self.start_position_in_lines[line - 1]
                 break
         return point
-
 
 tree = Tree()
 print(json.dumps(tree.tree))
