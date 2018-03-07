@@ -63,7 +63,7 @@
 						"patterns": [
 									{
 										"name": "constant.numeric",
-										"match": "[0-9.]+"
+										"match": "\\b[0-9]+\\b\\.{0,1}"
 									}
 									]
 					},
@@ -72,22 +72,7 @@
 									{%- for keyword in keywords %}
 									{
 										"name": "{{keyword.name}}",
-										"match": "{{keyword.match}}",
-										"captures": {
-                                            "1": {
-                                                "patterns": [
-                                                    {%- for operation in operations %}
-                                                    {
-                                                        "name": "{{operation.name}}",
-                                                        "match": "{{operation.match}}"
-                                                    }
-                                                    {%- if loop.index != operations|length -%}
-                                                    ,
-                                                    {%- endif %}
-                                                    {%- endfor %}
-                                                ]
-                                            }
-                                        }
+										"match": "{{keyword.match}}"
 									}
 									{%- if loop.index != keywords|length -%}
 									,
@@ -113,7 +98,7 @@
 									{%- for expression in regular_expressions %}
 									{
 										"name": "{{expression.name}}",
-										"match": "{{expression.match}}",
+										"match": "({{expression.match}})",
                                         "captures": {
                                             "1": {
                                                 "patterns": [

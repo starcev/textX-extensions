@@ -1,7 +1,5 @@
-from os import makedirs
-from os.path import join, dirname, exists
+from os.path import join, dirname
 from textx.metamodel import metamodel_from_file
-from textx.export import metamodel_export, model_export
 from jinja2 import Template
 
 class ColoringVSCode(object):
@@ -57,13 +55,13 @@ class ColoringVSCode(object):
     def interpret_program(self,model):
         if model.configuration != None:
             self.interpret_configuration(model.configuration)
-        for rule in model.rules:
-            if rule.rules != None:
-                self.intepret_rules(rule.rules)
-            if rule.matches != None:
-                self.interpret_matches(rule.matches)
-            if rule.regular_expressions != None:
-                self.interpret_regular_expressions(rule.regular_expressions)
+        for element in model.array:
+            if element.rules != None:
+                self.intepret_rules(element.rules)
+            if element.matches != None:
+                self.interpret_matches(element.matches)
+            if element.regular_expressions != None:
+                self.interpret_regular_expressions(element.regular_expressions)
 
     def interpret_configuration(self,configuration):
         for command in configuration.configuration_commands:
@@ -255,24 +253,19 @@ class ColoringVSCode(object):
                 'block_start': self.block_comment_start,
                 'block_end': self.block_comment_end
             },
-            'keywords': self.get_name_match_relation(self.type_keyword_relation, self.operations),
+            'keywords': self.get_name_match_relation(self.type_keyword_relation, True),
             'operations': self.get_name_match_relation(self.type_operation_relation),
-            'regular_expressions':  self.get_name_match_relation(self.type_regular_expression_relation, self.operations)
+            'regular_expressions':  self.get_name_match_relation(self.type_regular_expression_relation)
         }
 
-    def get_name_match_relation(self, map, operators=[]):
+    def get_name_match_relation(self, map, word_boundary=False):
         keywords = []
         deleted = True
-        appendix = ""
-        for i, operator in enumerate(operators):
-            appendix += operator
-            if i != len(operators) - 1:
-                appendix += "|"
         while deleted == True:
             deleted = False
             for item, words in map.items():
                 element = ""
-                element += '('
+                #element += '('
                 j = 0
                 insert = False
                 while j < len(words):
@@ -282,17 +275,22 @@ class ColoringVSCode(object):
                     if indipendent == False:
                         j = j + 1
                         continue
-                    string = words[j]
-                    if appendix != "":
-                        string += "(" + appendix + ")*"
-                        string = string + "$|" + string + " "
+                    string = ""
+                    if word_boundary:
+                        string += "\\\\b"
+                    string += words[j]
+                    if word_boundary:
+                        string += "\\\\b"
+                    #if appendix != "":
+                        #string += "\\b" + appendix + "\\b"
+                        #string = string + "$|" + string + " "
                     element += string
                     if j != len(words)-1:
                         element += '|'
                     words.remove(words[j])
                     deleted = True
                     insert = True
-                element += ')'
+                #element += ')'
                 keyword = {
                     'name': item,
                     'match': element

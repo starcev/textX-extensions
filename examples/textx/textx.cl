@@ -1,23 +1,23 @@
-configuration = {
+configuration {
 	default: 
-		keyword -> keyword.control;
-		operation -> keyword.operator.new;
+		keyword = keyword.control;
+		operation = keyword.operator.new;
 	comment:
-		line: "//";
+		line = "//";
 		block:
-			start: "/*";
-			end: "*/";
+			start = "/*";
+			end = "*/";
 }
 
-rules = {
+rules {
 	keyword:
-		BracketedChoice -> constant.character;
+		BracketedChoice = constant.character;
 }
 
-matches = {
-	"?=", "*=", "+=" -> storage.modifier;
+matches {
+	"?=", "*=", "+=" = storage.modifier;
 }
 
-regular expressions = {
-	"\\w+:" -> entity.name.class;
+regular expressions {
+	"\\w+:" = entity.name.class;
 }

@@ -1,20 +1,20 @@
-configuration = {
+configuration {
 	default: 
-		keyword -> keyword.control;
-		operation -> keyword.operator.new;
+		keyword = keyword.control;
+		operation = keyword.operator.new;
 	comment:
-		line: "//";
+		line = "//";
 		block:
-			start: "/*";
-			end: "*/";
+			start = "/*";
+			end = "*/";
 }
 
-rules = {
+rules {
 	keyword:
-		Entity -> entity.name.class;
-		Property -> variable.language;
-		SimpleType -> entity.name.type;
+		Entity = entity.name.class;
+		Property = variable.language;
+		SimpleType = entity.name.type;
 	operation:
-		Entity -> storage.modifier;
+		Entity = storage.modifier;
 }
 

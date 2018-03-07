@@ -1,24 +1,24 @@
 configuration = {
 	default: 
-		keyword -> keyword.control;
-		operation -> keyword.operator.new;
+		keyword = keyword.control;
+		operation = keyword.operator.new;
 	comment:
-		line: "#";
+		line = "#";
 		block:
-			start: "++";
-			end: "--";
+			start = "++";
+			end = "--";
 }
 
 rules = {
 	keyword:
-		InitialCommand -> entity.name.class;
-		Direction -> support.class;
+		InitialCommand = entity.name.class;
+		Direction = support.class;
 }
 
 matches = {
-	"up", "wi+th", "+" -> variable.language;
+	"up", "wi+th", "+" = variable.language;
 }
 
 regular expressions = {
-	"\\w+" -> variable.language;
+	"\\w+" = variable.language;
 }
