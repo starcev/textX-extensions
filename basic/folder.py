@@ -1,8 +1,7 @@
 from os import makedirs
 from os.path import exists, dirname, join
-from shutil import copyfile
 
-class BasicGenerator(object):
+class FolderGenerator(object):
 
     def __init__(self,configuration):
         self.configuration = configuration

@@ -12,7 +12,7 @@ class OutlineVSCode(object):
         self.this_folder = dirname(__file__)
 
     def do_outline_for_vscode(self):
-        if self.configuration.outline_path == None:
+        if self.configuration.outline_path == '':
             return
         self.generate_python_interpreter_path()
         self.copy_script()

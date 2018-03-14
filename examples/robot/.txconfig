@@ -1,0 +1,17 @@
+dsl robot [rbt] {
+	general {
+		publisher: "FTN"
+		author: "Nemanja Starcev"
+		version: "1.0.0"
+    }
+
+	paths {
+		grammar: "C:\\Users\\Nemanja\\Desktop\\examples\\robot\\robot.tx"
+		generation: "C:\\Users\\Nemanja\\.vscode\\extensions"
+		outline: "C:\\Users\\Nemanja\\Desktop\\examples\\robot\\robot.txol"
+	}
+
+	python {
+	    interpreter: "C:\\Users\\Nemanja\\AppData\\Local\\Programs\\Python\\Python36-32\\python.exe"
+	}
+}

@@ -33,7 +33,7 @@ class ColoringVSCode(object):
         self.coloring = {}
 
     def do_coloring_for_vscode(self):
-        if self.configuration.coloring_path == None:
+        if self.configuration.coloring_path == '':
             return
 
         this_folder = dirname(__file__)

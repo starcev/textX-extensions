@@ -1,4 +1,4 @@
-lang entity [ent] {
+dsl entity [ent] {
 	general {
 		publisher: "FTN"
 		author: "Nemanja Starcev"
@@ -6,11 +6,11 @@ lang entity [ent] {
 		version: "1.0.0"
     }
 
-	path {
+	paths {
 		grammar: "C:\\Users\\Nemanja\\Desktop\\examples\\entity\\entity.tx"
-		coloring: "C:\\Users\\Nemanja\\Desktop\\examples\\entity\\entity.cl"
-		outline: "C:\\Users\\Nemanja\\Desktop\\examples\\entity\\entity.ol"
-		generating: "C:\\Users\\Nemanja\\.vscode\\extensions"
+		generation: "C:\\Users\\Nemanja\\.vscode\\extensions"
+		outline: "C:\\Users\\Nemanja\\Desktop\\examples\\entity\\entity.txol"
+		coloring: "C:\\Users\\Nemanja\\Desktop\\examples\\entity\\entity.txcl"
 	}
 
 	python {

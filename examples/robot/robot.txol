@@ -1,0 +1,9 @@
+InitialCommand {
+	label = initial
+	icon = "C:\\Users\\Nemanja\\Desktop\\icons\\init.png"
+}
+
+MoveCommand {
+	label = direction
+	icon = "C:\\Users\\Nemanja\\Desktop\\icons\\direction.png"
+}

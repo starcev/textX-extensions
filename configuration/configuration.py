@@ -1,6 +1,5 @@
 from os.path import join, dirname
 from textx.metamodel import metamodel_from_file
-from textx.export import metamodel_export, model_export
 
 class Configuration(object):
 
@@ -8,10 +7,7 @@ class Configuration(object):
         this_folder = dirname(__file__)
 
         grammar = metamodel_from_file(join(this_folder, 'grammar.tx'), debug=False)
-        metamodel_export(grammar, join(this_folder, 'grammar.dot'))
-
-        self.grammar_model = grammar.model_from_file(join(this_folder, '.config'))
-        model_export(self.grammar_model, join(this_folder, '.dot'))
+        self.grammar_model = grammar.model_from_file(join(this_folder, '.txconfig'))
 
     @property
     def language_name(self):
@@ -20,8 +16,8 @@ class Configuration(object):
     @property
     def language_extensions(self):
         extensions = []
-        for extension in self.grammar_model.extensions.extension:
-            extensions.append('.'+extension.id)
+        for extension in self.grammar_model.extensions:
+            extensions.append('.'+extension)
         return extensions
 
     @property
@@ -38,35 +34,35 @@ class Configuration(object):
 
     @property
     def publisher(self):
-        return self.getValue('general', 'publisher')
+        return self.grammar_model.general_section.publisher
 
     @property
     def url(self):
-        return self.getValue('general', 'url')
+        return self.grammar_model.general_section.url
 
     @property
     def author(self):
-        return self.getValue('general', 'author')
+        return self.grammar_model.general_section.author
 
     @property
     def version(self):
-        return self.getValue('general', 'version')
+        return self.grammar_model.general_section.version
 
     @property
     def grammar_path(self):
-        return self.getValue('path', 'grammar')
+        return self.grammar_model.paths_section.grammar_path
 
     @property
     def coloring_path(self):
-        return self.getValue('path', 'coloring')
+        return self.grammar_model.paths_section.coloring_path
 
     @property
     def outline_path(self):
-        return self.getValue('path', 'outline')
+        return self.grammar_model.paths_section.outline_path
 
     @property
     def genereting_path(self):
-        return self.getValue('path', 'generating')
+        return self.grammar_model.paths_section.generation_path
 
     @property
     def project_path(self):
@@ -74,7 +70,7 @@ class Configuration(object):
 
     @property
     def python_interpreter(self):
-        return self.getValue('python', 'interpreter')
+        return self.grammar_model.pythonPath.interpreter
 
     def getValue(self, rule, option):
         for rule_item in self.grammar_model.rules:

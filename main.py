@@ -1,6 +1,6 @@
 from coloring.coloring import ColoringVSCode
 from configuration.configuration import Configuration
-from basic.basic import BasicGenerator
+from basic.folder import FolderGenerator
 from basic.package_json import PackageJsonGenerator
 from basic.extension_js import ExtensionGenerator
 from outline.outline import OutlineVSCode
@@ -9,8 +9,8 @@ def main(debug=False):
 
     configuration = Configuration()
 
-    basic = BasicGenerator(configuration)
-    basic.make_folder_structure()
+    folder = FolderGenerator(configuration)
+    folder.make_folder_structure()
 
     package_json = PackageJsonGenerator(configuration)
     package_json.generate_package_json()

@@ -1,23 +1,34 @@
 Program:
-	'lang' name=ID extensions=Extensions '{' rules*=Rule '}'
+	'dsl' name=ID '[' extensions+=ID[','] ']' '{'
+		general_section=GeneralSection?
+		paths_section=PathsSection
+		pythonPath=PythonPath?
+	'}'
 ;
 
-Extensions:
-	'[' extension+=Extension ']'
+GeneralSection:
+	'general' '{'
+		'publisher' ':'	publisher=STRING
+		'author' 	 ':'	author=STRING
+		('url' 	     ':'	url=STRING)?
+		'version' 	 ':'	version=STRING
+	'}'
 ;
 
-Extension:
-	id=ID (',')?
+PathsSection:
+	'paths' '{'
+		'grammar'	':'	grammar_path=STRING
+		'generation' ':' generation_path=STRING
+		('outline'	':' outline_path=STRING)?
+		('coloring'	':'	coloring_path=STRING)?
+		('classes'	':' classes_path=STRING)?
+		('builtins'	':' builtins_path=STRING)?
+
+	'}'
 ;
 
-Rule:
-	name=RuleName '{' options*=Option '}'
-;
-
-RuleName:
-	'general' | 'path' | 'command' | 'python'
-;
-
-Option:
-	name=ID ':' value=STRING
+PythonPath:
+	'python' '{'
+		'interpreter' ':' interpreter=STRING
+	'}'
 ;
