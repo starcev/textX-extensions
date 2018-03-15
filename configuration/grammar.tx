@@ -18,7 +18,7 @@ GeneralSection:
 PathsSection:
 	'paths' '{'
 		'grammar'	':'	grammar_path=STRING
-		'generation' ':' generation_path=STRING
+		('generation' ':' generation_path=STRING)?
 		('outline'	':' outline_path=STRING)?
 		('coloring'	':'	coloring_path=STRING)?
 		('classes'	':' classes_path=STRING)?

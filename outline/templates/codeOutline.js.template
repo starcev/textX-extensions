@@ -184,15 +184,7 @@ class CodeOutline {
         });
     }
     getIcon(icon) {
-        if (icon == undefined) {
-            icon = "default.png";
-        }
-        if (path.isAbsolute(icon)) {
-            return icon;
-        }
-        else {
-            return this.context.asAbsolutePath(path.join('resources', 'icons', icon));
-        }
+        return this.context.asAbsolutePath(path.join('resources', 'icons', path.basename(icon)));
     }
     getTreeItem(node) {
         let treeItem = new vscode_1.TreeItem(node.symbol.name);

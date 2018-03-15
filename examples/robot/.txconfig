@@ -2,13 +2,14 @@ dsl robot [rbt] {
 	general {
 		publisher: "FTN"
 		author: "Nemanja Starcev"
+        url: "http:\\github.com"
 		version: "1.0.0"
     }
 
 	paths {
-		grammar: "C:\\Users\\Nemanja\\Desktop\\examples\\robot\\robot.tx"
-		generation: "C:\\Users\\Nemanja\\.vscode\\extensions"
-		outline: "C:\\Users\\Nemanja\\Desktop\\examples\\robot\\robot.txol"
+		grammar: "examples\\robot\\robot.tx"
+		outline: "examples\\robot\\robot.txol"
+		coloring: "examples\\robot\\robot.txcl"
 	}
 
 	python {

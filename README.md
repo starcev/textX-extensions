@@ -4,7 +4,7 @@ This project enable you to create extension for Visual Studio Code, which suppor
 
 ## Getting Started
 
-Create rules for coloring and store them in the file with extension **.txcl** and/or create rules for code outline and store them in the file with extension **.txol**. Then, go to *configuration/.txconfig*, and fill it appropriate. At the the, run main.py script (stored in root). 
+Create rules for coloring and store them in the file with extension **.txcl** and/or create rules for code outline and store them in the file with extension **.txol**. Then, go to *.txconfig*, and fill it appropriate. At the the, run main.py script. 
 
 ### Prerequisites
 Have installed python 3, textX and jinja2
@@ -134,7 +134,7 @@ Action {
 ```
 
 ### Configuration
-Modify .txconfig file (*configuration/.txconfig*). 
+Modify .txconfig file. 
 Fill config file with appropriate data.
 
 ```
@@ -177,3 +177,4 @@ dsl workflow [wf] {
 
 This project is licensed under the MIT License
 
+![alt text](https://github.com/starcev/textX-extensions/tree/master/art/workflow.png)

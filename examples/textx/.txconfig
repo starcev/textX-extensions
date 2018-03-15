@@ -7,10 +7,9 @@ dsl textx [tx] {
     }
 
 	paths {
-		grammar: "C:\\Users\\Nemanja\\Desktop\\examples\\textx\\textx.tx"
-		generation: "C:\\Users\\Nemanja\\.vscode\\extensions"
-		outline: "C:\\Users\\Nemanja\\Desktop\\examples\\textx\\textx.txol"
-		coloring: "C:\\Users\\Nemanja\\Desktop\\examples\\textx\\textx.txcl"
+		grammar: "examples\\textx\\textx.tx"
+		outline: "examples\\textx\\textx.txol"
+		coloring: "examples\\textx\\textx.txcl"
 	}
 
 	python {

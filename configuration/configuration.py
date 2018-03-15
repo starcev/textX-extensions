@@ -1,4 +1,4 @@
-from os.path import join, dirname
+from os.path import join, dirname, abspath
 from textx.metamodel import metamodel_from_file
 
 class Configuration(object):
@@ -7,7 +7,7 @@ class Configuration(object):
         this_folder = dirname(__file__)
 
         grammar = metamodel_from_file(join(this_folder, 'grammar.tx'), debug=False)
-        self.grammar_model = grammar.model_from_file(join(this_folder, '.txconfig'))
+        self.grammar_model = grammar.model_from_file(join(this_folder,'..', '.txconfig'))
 
     @property
     def language_name(self):
@@ -62,6 +62,8 @@ class Configuration(object):
 
     @property
     def genereting_path(self):
+        if self.grammar_model.paths_section.generation_path == '':
+            return join(dirname(__file__),'..')
         return self.grammar_model.paths_section.generation_path
 
     @property

@@ -40,10 +40,10 @@ class ColoringVSCode(object):
 
         textX = metamodel_from_file(join(dirname(__file__), '..', 'textX.tx'))
 
-        grammar_model = textX.model_from_file(join(this_folder, self.configuration.grammar_path))
+        grammar_model = textX.model_from_file(self.configuration.grammar_path)
         grammar = metamodel_from_file(join(this_folder, 'coloring.tx'), debug=False)
 
-        program_model = grammar.model_from_file(join(this_folder, self.configuration.coloring_path))
+        program_model = grammar.model_from_file(self.configuration.coloring_path)
 
         self.name = self.configuration.language_name
 

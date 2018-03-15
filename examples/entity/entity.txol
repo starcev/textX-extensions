@@ -1,14 +1,14 @@
 Entity {
 	label = name
-	icon = "C:\\Users\\Nemanja\\Desktop\\icons\\entity.png"
+	icon = "examples\\entity\\icons\\entity.png"
 }
 
 Property {
 	label = prop + " : " + type
-	icon = "C:\\Users\\Nemanja\\Desktop\\icons\\property.png"
+	icon = "examples\\entity\\icons\\property.png"
 }
 
 SimpleType {
 	label = name
-	icon = "C:\\Users\\Nemanja\\Desktop\\icons\\type.png"
+	icon = "examples\\entity\\icons\\type.png"
 }

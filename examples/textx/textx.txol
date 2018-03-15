@@ -1,4 +1,4 @@
 TextxRule {
 	label = name
-	icon = "C:\\Users\\Nemanja\\Desktop\\icons\\rule.png"
+	icon = "examples\\textx\\icons\\rule.png"
 }

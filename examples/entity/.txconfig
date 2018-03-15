@@ -7,10 +7,9 @@ dsl entity [ent] {
     }
 
 	paths {
-		grammar: "C:\\Users\\Nemanja\\Desktop\\examples\\entity\\entity.tx"
-		generation: "C:\\Users\\Nemanja\\.vscode\\extensions"
-		outline: "C:\\Users\\Nemanja\\Desktop\\examples\\entity\\entity.txol"
-		coloring: "C:\\Users\\Nemanja\\Desktop\\examples\\entity\\entity.txcl"
+		grammar: "examples\\entity\\entity.tx"
+		outline: "examples\\entity\\entity.txol"
+		coloring: "examples\\entity\\entity.txcl"
 	}
 
 	python {
