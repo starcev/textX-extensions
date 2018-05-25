@@ -1,6 +1,6 @@
 # TextX-extensions
 
-This project enable you to create extension for Visual Studio Code, which support text coloring and/or code outline for dsl languages wirtten in textX.
+This project enable you to create extension for Visual Studio Code editor, which support text coloring and code outline for dsl languages wirtten in textX. More about textX is available at: http://www.igordejanovic.net/textX/
 
 ## Getting Started
 
